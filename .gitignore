@@ -1,0 +1,32 @@
+# STM32编译产物
+*.o
+*.elf
+*.hex
+*.bin
+*.map
+Debug/
+Release/
+build/
+
+# Keil MDK IDE缓存
+.uvguix.*
+*.bak
+*.log
+*.dep
+*.crf
+*.htm
+*.sct
+
+# 系统文件
+Thumbs.db
+.DS_Store
+# Keil编译输出
+Objects/
+Listings/
+*.hex
+*.axf
+*.elf
+
+# Keil本地用户配置
+*.uvoptx
+*.uvguix.*
