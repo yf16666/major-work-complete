@@ -17,11 +17,11 @@ void App_Run(void){//屏幕数据等 1s/一次的温湿度更新
 
 
 
-	App_adcTask(&appModel);
+//	App_adcTask(&appModel);
 	App_vocTask(&appModel);
-	App_getLuminTask(&appModel);
-	App_alermCheckTask(&appModel);
-	App_alermTask(&appModel);
+//	App_getLuminTask(&appModel);
+//	App_alermCheckTask(&appModel);
+//	App_alermTask(&appModel);
 
 
 	App_hmiDataPrase(&Screen,&hmiEvent);
@@ -49,7 +49,7 @@ void TIM3_IRQHandler(void)
 			appModel.timerModel->adcSamplFlag = 1;
 			a = 0;
 		}
-		for(i=0;i<sensorNum;i++)// && (appModel.alermModel[i].alermState != pass)
+		for(i=0;i<sensorNum;i++)
 			if((appModel.Sensors[i].STA) != error)appModel.alermModel[i].timeCNT++;else appModel.alermModel[i].timeCNT = 0;
 		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
 	}

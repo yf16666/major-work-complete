@@ -49,7 +49,7 @@ static u8 len=0;
 static PRSTA pr=findHead;
 
 
-void Dri_vocPraseData(RingBuf *rb,int16_t *temp,int16_t *humi){
+void Dri_vocPraseData(RingBuf *rb,int16_t *temp,int16_t *humi,int16_t *CO2){
 
 	u8 ch = 0;
 	while(Dri_readByte(rb,&ch)){
@@ -73,8 +73,9 @@ void Dri_vocPraseData(RingBuf *rb,int16_t *temp,int16_t *humi){
 					int16_t t = (int16_t)(data[7] << 8) | data[8];
 					*temp = (int)(t  - 100);//注意传感器模块PCB的热量差
 					*humi = (data[9] << 8) | data[10];
+					*CO2 = 	(data[5] << 8) | data[6];
 					#if debug
-					Usart1.Print("[DeBug-Pra_VOC]\r\n\r\nt:%d,temp:%d,h:%d\r\n\r\n",t,*temp,*humi);
+					Usart1.Print("[DeBug-Pra_VOC]\r\n\r\nt:%d,temp:%d,h:%d,CO2:%d\r\n\r\n",t,*temp,*humi,*CO2);
 					#endif
 
 				}else{

@@ -12,6 +12,8 @@ void alermTask_luminOver(u16 *currTime,u8 flag);
 void alermTask_soilOver(u16 *currTime,u8 flag);
 void alermTask_soilLess(u16 *currTime,u8 flag);
 
+void alermTask_CO2Over(u16 *currTime,u8 flag);
+void alermTask_CO2Less(u16 *currTime,u8 flag);
 #endif
 
 

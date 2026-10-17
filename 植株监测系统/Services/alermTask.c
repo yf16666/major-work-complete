@@ -41,7 +41,9 @@ static AlermTaskConf alermTaskCof[] = {
 	{(3 * timeBase),1},			//室内湿度Less
 	{(5 * timeBase),1},			//光照强度Over
 	{(5 * timeBase),2},		//土壤湿度Over
-	{(2 * timeBase),1}			//土壤湿度Less
+	{(2 * timeBase),1},			//土壤湿度Less
+	{(20 * timeBase),3},			//CO2数值Over
+	{(25 * timeBase),3},			//CO2数值Less
 };
 
 
@@ -253,7 +255,16 @@ void alermTask_soilLess(u16 *currTime,u8 flag){//alermTaskCof[6]
 			lastTime  = 0;okTimes = 0;
 	}
 }
-
+/*
+	CO2Over条件：
+		Beep每秒响 (周期 / 次)次
+*/
+void alermTask_CO2Over(u16 *currTime,u8 flag){};
+/*
+	CO2Less条件：
+		Beep每秒响 (周期 / 次)次
+*/
+void alermTask_CO2Less(u16 *currTime,u8 flag){};
 
 
 

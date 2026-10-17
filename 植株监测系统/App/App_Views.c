@@ -4,7 +4,7 @@
 
 #define  debug		0
 
-//#include	"Bsp_Tim.h"
+
 #include	"Ser_argvBind.h"
 //更新阈值页面
 //更新main页面（数据：温湿度、光照强度、土壤湿度、生长指数）
@@ -81,21 +81,26 @@ void View_readLedSTA(AppModel *model,HMI_Event *event){
 			Usart1.Print("[Model]绑定[补光灯】状态失败×当前处于告警状态,用户无法操作补光灯!\r\n");//break;
 }
 //更新main页面（数据：温湿度、光照强度、土壤湿度、生长指数）
-void View_sendSoil(u16 soilVal){
-	Usart1.Print("[App]土壤湿度值:%d %%Vol,已更新\r\n",soilVal);
-		Screen.Print("main.humiSoil.val=%d\xff\xff\xff",soilVal);
-}
+
 void View_sendTemp(int16_t temp){
 	Usart1.Print("[App]室内温度值:%d ℃,已更新\r\n",temp);
 		Screen.Print("main.tempIndoor.val=%d\xff\xff\xff",temp);
 }
 void View_sendHumi(int16_t Humi){
-	
+	Usart1.Print("[App]室内湿度值:%d %%Vol,已更新\r\n",Humi);
 		Screen.Print("main.humiIndoor.val=%d\xff\xff\xff",Humi);
 }
 void View_sendLumin(int16_t Lumin){
 	Usart1.Print("[App]光照强度值:%d lx,已更新\r\n",Lumin);
 		Screen.Print("main.sun.val=%d\xff\xff\xff",Lumin);
+}
+void View_sendSoil(u16 soilVal){
+	Usart1.Print("[App]土壤湿度值:%d %%Vol,已更新\r\n",soilVal);
+		Screen.Print("main.humiSoil.val=%d\xff\xff\xff",soilVal);
+}
+void View_sendCO2(int16_t CO2){
+	Usart1.Print("[App]环境CO2值:%d %%Vol,已更新\r\n",CO2);
+		Screen.Print("main.CO2Indoor.val=%d\xff\xff\xff",CO2);
 }
 void View_sendGrowth(int16_t grow){
 	Usart1.Print("[App]生长指数:%d,已更新\r\n",grow);
@@ -140,10 +145,7 @@ void View_sendThreshold(AppModel *model){
 
 
 
-const char *alermName[] = {
-	"室内温度","室内湿度","光照强度","土壤湿度","生长指数"
-};
-const char *thName[] ={"最小阈值","最大阈值"};
+
 
 
 
