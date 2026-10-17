@@ -17,7 +17,7 @@
 
 #include	"Dri_VOC.h"
 
-#define thresNum				5				//阈值x个数
+#define thresNum				6				//阈值x个数
 #define adcSamplTimes		25			//共采集25次-->500ms更新到屏幕，500 / 20 = 25次
 
 #define	Light_OutMax_Value		2500U		//滤波值超过极大值，说明比最大值还大，没必要继续估算
@@ -29,8 +29,14 @@
 
 //0：空气温度度、1：空气湿度、2：光照强度、3：土壤湿度、4：生长系数（有无阈值暂定！）
 //上电自动监测用户是否设置最大最小阈值，否则AppModel.thresArray使用下列默认阈值
-static const u8 defaultMaxThres[thresNum] = {32, 65, 25, 35, 0};//0：空气温度、1：空气湿度、2：光照强度、3：土壤湿度、4：生长系数（有无阈值暂定！）
-static const u8 defaultMinThres[thresNum] = {15, 40, 4, 18, 0};//0：空气温度、1：空气湿度、2：光照强度、3：土壤湿度、4：生长系数（有无阈值暂定！）
+static const u8 defaultMaxThres[thresNum] = {32, 65, 25, 35 ,8 , 0};//0：空气温度、1：空气湿度、2：光照强度(缩小了100倍)、3：土壤湿度、4：环境CO2(缩小了100倍)、5：生长系数（有无阈值暂定！）
+static const u8 defaultMinThres[thresNum] = {15, 40, 4, 18 ,12 , 0};//0：空气温度、1：空气湿度、2：光照强度(缩小了100倍)、3：土壤湿度、4：环境CO2(缩小了100倍)、5：生长系数（有无阈值暂定！）
+
+static const char *alermName[] = {
+	"室内温度","室内湿度","光照强度","土壤湿度","环境CO2","生长指数"
+};
+static const char *thName[] ={"最小阈值","最大阈值"};
+
 
 extern const u8 sensorNum;
 extern const u8 adcSampleTimes;
@@ -100,7 +106,7 @@ struct AlermModel{
 };
 
 // AlermModel的数量
-#define ALERM_CNT 5
+#define ALERM_CNT 6		//0：空气温度、1：空气湿度、2：光照强度、3：土壤湿度、4：环境CO2、5：生长系数
 //typedef struct{
 //    union{
 //        struct{

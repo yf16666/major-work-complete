@@ -21,6 +21,7 @@ void View_sendSoil(u16 soilVal);
 void View_sendTemp(int16_t temp);
 void View_sendHumi(int16_t Humi);
 void View_sendLumin(int16_t Lumin);
+void View_sendCO2(int16_t CO2);
 void View_sendGrowth(int16_t grow);
 
 void View_readLedSTA(AppModel *model,HMI_Event *event);

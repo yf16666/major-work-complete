@@ -276,48 +276,59 @@ void App_adcTask(AppModel *model){
 
 extern RingBuf VOCrb;
 void App_vocTask(AppModel *model){
-	static	u8 filTemp_times = 0,filHumi_times = 0;
+	static	u8 filTemp_times = 0,filHumi_times = 0,filCO2_times = 0;
 
 	(model->Sensors[0].STA) = (VOCrb.cnt >= 11)?sampOk:busy;
 	(model->Sensors[1].STA) =  (model->Sensors[0].STA);
+	(model->Sensors[4].STA) =  (model->Sensors[0].STA);
 	switch((model->Sensors[0].STA)){
 		case busy:
-			Usart1.Print("[Sensor-室内温湿度]传感器采集数据中!\r\n");
+			Usart1.Print("[Sensor-室内环境]传感器采集数据中!\r\n");
 				(model->Sensors[0].STA) = startSample;
 		    (model->Sensors[1].STA) = startSample;
+				(model->Sensors[4].STA) = startSample;
 		break;
 		case sampOk:
-			Usart1.Print("[Sensor-室内温湿度]传感器数据采集完成!\r\n");
+			Usart1.Print("[Sensor-室内环境]传感器数据采集完成!\r\n");
 			(model->Sensors[0].STA) = sensorIDLE;
 		    (model->Sensors[1].STA) = sensorIDLE;
+				(model->Sensors[4].STA) = sensorIDLE;
 		case startSample:
-			Usart1.Print("[Sensor-室内温湿度]传感器数据开始解析...\r\n");
-			Dri_vocPraseData(&VOCrb,&(model->Sensors[0].Val),&(model->Sensors[1].Val));
+			Usart1.Print("[Sensor-室内环境]传感器数据开始解析...\r\n");
+			Dri_vocPraseData(&VOCrb,&(model->Sensors[0].Val),&(model->Sensors[1].Val),&(model->Sensors[4].Val));
 				Ser_humiFil(&appModel);
 		    Ser_tempFil(&appModel);
+				Ser_CO2Fil(&appModel);
 		filTemp_times = (!model->alermModel[0].filterVal)?++filTemp_times:--filTemp_times;
 		filHumi_times = (!model->alermModel[1].filterVal)?++filHumi_times:--filHumi_times;
-				Usart1.Print("[Sensor-室内温湿度]数据开始解析完成!\r\n");
+		filCO2_times = (!model->alermModel[4].filterVal)?++filCO2_times:--filCO2_times;
+				Usart1.Print("[Sensor-室内环境]数据开始解析完成!\r\n");
 				if(model->appPage == pageHome){
 					View_sendTemp(model->Sensors[0].Val * 10);
 					View_sendHumi(model->Sensors[1].Val * 10);
+					View_sendCO2(model->Sensors[4].Val);//CO2数值不需要 * 10倍
 				}
-				Usart1.Print("[Sensor-室内温湿度]数据：Temp:%d.%d，Humi:%d.%d%%RH! \r\n",model->Sensors[0].Val / 10,model->Sensors[0].Val % 10,model->Sensors[1].Val / 10, model->Sensors[1].Val % 10);
+				Usart1.Print("[Sensor-室内环境]数据：Temp:%d.%d，Humi:%d.%d%%RH，CO2:%dppm! \r\n",model->Sensors[0].Val / 10,model->Sensors[0].Val % 10,
+																									model->Sensors[1].Val / 10, model->Sensors[1].Val % 10, model->Sensors[4].Val);
 		 (model->Sensors[0].STA) = (filTemp_times >=3)?error:sensorIDLE;
 			(model->Sensors[1].STA) = (filHumi_times >=3)?error:sensorIDLE; 
+				(model->Sensors[4].STA) = (filCO2_times >=3)?error:sensorIDLE; 
 		case	sensorIDLE:
-			Usart1.Print("[Sensor-室内温湿度]传感器处于IDLE中!\r\n");
+			Usart1.Print("[Sensor-室内环境]传感器处于IDLE中!\r\n");
 				(model->Sensors[0].STA) = startSample;
 		    (model->Sensors[1].STA) = startSample;
+				(model->Sensors[4].STA) = startSample;
 		break;
 		case error:
-			Usart1.Print("[Sensor-室内温湿度]传感器连接出错,请检查后重试!\r\n");
+			Usart1.Print("[Sensor-室内环境]传感器连接出错,请检查后重试!\r\n");
 				
 		default:
 			DeInit_theSensor(&(model->Sensors[0]));
 				DeInit_theAlermModels(&(model->alermModel[0]));//同时重置对应的Alerm模型
 			DeInit_theSensor(&(model->Sensors[1]));
 				DeInit_theAlermModels(&(model->alermModel[1]));//同时重置对应的Alerm模型
+			DeInit_theSensor(&(model->Sensors[4]));
+				DeInit_theAlermModels(&(model->alermModel[4]));//同时重置对应的Alerm模型
 		break;
 	}
 

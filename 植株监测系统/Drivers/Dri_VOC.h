@@ -16,7 +16,7 @@ struct RingBuf{
 
 u8 Dri_readByte(RingBuf *rb,u8 *data);
 u8 Dri_writeByte(RingBuf *rb,u8 ch);
-void Dri_vocPraseData(RingBuf *rb,int16_t *temp,int16_t *humi);
+void Dri_vocPraseData(RingBuf *rb,int16_t *temp,int16_t *humi,int16_t *CO2);
 
 
 #endif

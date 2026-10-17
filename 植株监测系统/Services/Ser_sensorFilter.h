@@ -11,7 +11,7 @@ void	 Ser_tempFil(AppModel *model);
 void	 Ser_humiFil(AppModel *model);
 void	 Ser_luminFil(AppModel *model);
 void	Ser_soilFil(AppModel *model);
-
+void	Ser_CO2Fil(AppModel *model);
 
 
 

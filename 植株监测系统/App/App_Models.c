@@ -70,21 +70,22 @@ void DeInit_theSensor(Sensor *sensor){
 }
 void DeInit_theAlermModels(AlermModel *alermModel){
 	//重新初始化为开始状态，等待下一次监测状态
-	for(u8 i = 0;i<3;i++){
-		alermModel[i].alermState = pass;
-		alermModel[i].filterVal = 0;
-		alermModel[i].highCnt = 0;
-		alermModel[i].lowCnt = 0;
-		alermModel[i].timeCNT = 0;
-	}
-//	Usart1.Print("[App_AlermModelDeInit]传感器:%s 已重新初始化!\r\n",sensor->name);
+//	for(u8 i = 0;i<ALERM_CNT;i++){
+		alermModel->alermState = pass;
+		alermModel->filterVal = 0;
+		alermModel->highCnt = 0;
+		alermModel->lowCnt = 0;
+		alermModel->timeCNT = 0;
+//	}
+//	Usart1.Print("[App_AlermModelDeInit]告警传感器:%s 已重新初始化!\r\n",sensor->name);
 }
 static void sensorModel_Init(void){
 	sensors[0].name = "室内温度";
 	sensors[1].name = "室内湿度";
 	sensors[2].name = "光照强度";
 	sensors[3].name = "土壤湿度";
-	sensors[4].name = "生长指数";
+	sensors[4].name = "环境CO2";
+	sensors[5].name = "生长指数";
 	
 	for(u8 i = 0;i<sensorNum;i++){
 			sensors[i].STA = sensorIDLE;
@@ -106,7 +107,7 @@ static void thresModel_Init(void){
 
 static void alermModel_Init(void){
 	
-	for(u8 i =0;i< ALERM_CNT;i++){//0：空气温度、1：空气湿度、2：光照强度、3：土壤湿度、4：生长系数
+	for(u8 i =0;i< ALERM_CNT;i++){//0：空气温度、1：空气湿度、2：光照强度、3：土壤湿度、4：环境CO2、5：生长系数
 		alermModel[i].filterVal = 0;
 		alermModel[i].highCnt = 0;
 		alermModel[i].lowCnt = 0;
@@ -114,25 +115,7 @@ static void alermModel_Init(void){
 		alermModel[i].timeCNT = 0;
 	}
 	
-//	alermModel.tempAlerm = pass;
-//		alermModel.humiAlerm = pass;
-//		alermModel.sunAlerm = pass;
-//		alermModel.soilHumiAlerm = pass;
-//		alermModel.growthAlerm = pass;
-	
-	
-//	typedef struct{
-//    union{
-//        struct{
-//            Alerm tempAlerm;
-//            Alerm humiAlerm;
-//            Alerm sunAlerm;
-//            Alerm soilHumiAlerm;
-//            Alerm growthAlerm;
-//        };
-//        Alerm alermList[5];
-//    };
-//}AlermModel;
+
 }
 
 static	void timerModel_Init(void){

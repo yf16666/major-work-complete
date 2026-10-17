@@ -3,6 +3,8 @@
 #define		Alfa_temp				0.6
 #define		Alfa_lumin			0.6
 #define		Alfa_soil				0.3
+#define		Alfa_CO2				0.6
+
 
 #define	debug	1
 void	 Ser_tempFil(AppModel *model){//室内温度的滤波
@@ -43,7 +45,14 @@ void	Ser_soilFil(AppModel *model){//土壤湿度值的滤波
 	
 }
 
-
+void	Ser_CO2Fil(AppModel *model){//CO2值的滤波
+	if(!model)return;
+	model->alermModel[4].filterVal = Alfa_CO2 * (model->Sensors[4].Val) + (1 - Alfa_CO2) * model->alermModel[4].filterVal;
+	#if	debug
+		Usart1.Print("[Debug-Ser_CO2Fil]filterVal:%d\r\n",model->alermModel[4].filterVal);
+	#endif
+	
+}
 
 
 
